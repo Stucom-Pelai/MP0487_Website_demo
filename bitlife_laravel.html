@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bit Life Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #000; }
+        .hidden { display: none; }
+        #question-img { max-width: 100%; height: auto; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bit Life Game</h1>
+        <p>Age: <span id="age">18</span></p>
+        <p>Experience Level: <span id="level">0</span></p>
+        <div id="question-box">
+            <img id="question-img" src="" alt="Question Image" class="hidden">
+            <p id="question">Press start to begin your journey!</p>
+            <button id="option1" class="hidden" onclick="chooseOption(1)"></button>
+            <button id="option2" class="hidden" onclick="chooseOption(2)"></button>
+        </div>
+        <button id="start-btn" onclick="startGame()">Start Game</button>
+    </div>
+    
+    <script>
+        let age = 18;
+        let level = 0;
+        let questionIndex = 0;
+
+        const questions = [
+            { q: "You found $100 on the street. What do you do?", a: "Keep it", b: "Donate it", exp1: 5, exp2: 10, img: "money.jpg" },
+            { q: "You got a job offer. Accept?", a: "Yes", b: "No", exp1: 10, exp2: 2, img: "job.jpg" },
+            { q: "Your friend asks for a loan. Lend money?", a: "Yes", b: "No", exp1: 7, exp2: 3, img: "loan.jpg" },
+            { q: "Start a business or get a job?", a: "Business", b: "Job", exp1: 15, exp2: 8, img: "business.jpg" },
+            { q: "You won a lottery. Invest or spend?", a: "Invest", b: "Spend", exp1: 12, exp2: 4, img: "lottery.jpg" },
+            { q: "Move to a new city?", a: "Yes", b: "No", exp1: 9, exp2: 5, img: "city.jpg" },
+            { q: "Take an online course?", a: "Yes", b: "No", exp1: 6, exp2: 2, img: "course.jpg" },
+            { q: "Buy a car or save money?", a: "Car", b: "Save", exp1: 4, exp2: 10, img: "car.jpg" },
+            { q: "Help a stranger in need?", a: "Yes", b: "No", exp1: 8, exp2: 3, img: "help.jpg" },
+            { q: "Go on a world trip?", a: "Yes", b: "No", exp1: 11, exp2: 5, img: "trip.jpg" }
+        ];
+
+        function startGame() {
+            document.getElementById("start-btn").classList.add("hidden");
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (questionIndex < questions.length) {
+                let q = questions[questionIndex];
+                document.getElementById("question").innerText = q.q;
+                document.getElementById("option1").innerText = q.a;
+                document.getElementById("option2").innerText = q.b;
+                document.getElementById("option1").classList.remove("hidden");
+                document.getElementById("option2").classList.remove("hidden");
+                
+                let imgElement = document.getElementById("question-img");
+                imgElement.src = q.img;
+                imgElement.classList.remove("hidden");
+            } else {
+                document.getElementById("question").innerText = "Game Over! Final Experience Level: " + level;
+                document.getElementById("option1").classList.add("hidden");
+                document.getElementById("option2").classList.add("hidden");
+                document.getElementById("question-img").classList.add("hidden");
+            }
+        }
+
+        function chooseOption(option) {
+            let q = questions[questionIndex];
+            level += option === 1 ? q.exp1 : q.exp2;
+            age++;
+            document.getElementById("age").innerText = age;
+            document.getElementById("level").innerText = level;
+            questionIndex++;
+            nextQuestion();
+        }
+    </script>
+</body>
+</html>
