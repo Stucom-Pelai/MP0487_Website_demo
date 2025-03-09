@@ -82,14 +82,14 @@
         }
 
         function fired() {
-            document.getElementById("question").innerText = "Game Over! You were fired for the wrong answer!";
+            document.getElementById("question").innerText = "Tu mala acción provoca una caida de la aplicación!";
             document.getElementById("option1").classList.add("hidden");
             document.getElementById("option2").classList.add("hidden");
             document.getElementById("question-img").classList.add("hidden");
 
             let finalResult = document.getElementById("final-result");
             finalResult.classList.remove("hidden");
-            finalResult.innerText = `You got fired! Better luck next time!`;
+            finalResult.innerText = `Has sido despedido! Te conviertes en el campeón mundial de dormir hasta las 2 PM. 😜`;
         }
 
         function endGame() {
