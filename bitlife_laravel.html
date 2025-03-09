@@ -31,16 +31,16 @@
         let questionIndex = 0;
 
         const questions = [
-            { q: "You found $100 on the street. What do you do?", a: "Keep it", b: "Donate it", exp1: 5, exp2: 10, img: "money.jpg" },
-            { q: "You got a job offer. Accept?", a: "Yes", b: "No", exp1: 10, exp2: 2, img: "job.jpg" },
-            { q: "Your friend asks for a loan. Lend money?", a: "Yes", b: "No", exp1: 7, exp2: 3, img: "loan.jpg" },
-            { q: "Start a business or get a job?", a: "Business", b: "Job", exp1: 15, exp2: 8, img: "business.jpg" },
-            { q: "You won a lottery. Invest or spend?", a: "Invest", b: "Spend", exp1: 12, exp2: 4, img: "lottery.jpg" },
-            { q: "Move to a new city?", a: "Yes", b: "No", exp1: 9, exp2: 5, img: "city.jpg" },
-            { q: "Take an online course?", a: "Yes", b: "No", exp1: 6, exp2: 2, img: "course.jpg" },
-            { q: "Buy a car or save money?", a: "Car", b: "Save", exp1: 4, exp2: 10, img: "car.jpg" },
-            { q: "Help a stranger in need?", a: "Yes", b: "No", exp1: 8, exp2: 3, img: "help.jpg" },
-            { q: "Go on a world trip?", a: "Yes", b: "No", exp1: 11, exp2: 5, img: "trip.jpg" }
+            { q: "En una entrevista técnica, te piden crear una API REST en Laravel. ¿Cuál es el primer paso?", a: "Crear un controlador con php artisan", b: "Crear la base de datos en SQL", exp1: 5, exp2: 0, img: "money.jpg" },
+            { q: "En tu primer día en un nuevo trabajo, necesitas clonar un proyecto Laravel y configurarlo. ¿Qué comando ejecutas después de clonar el repositorio?", a: "php artisan serve", b: "composer install", exp1: 0, exp2: 5, img: "job.jpg" },
+            { q: "El equipo necesita una nueva tabla en la base de datos. ¿Qué comando utilizas?", a: "php artisan migrate:fresh", b: "php artisan make:migration", exp1: 0, exp2: 5, img: "loan.jpg" },
+            { q: "El cliente reporta un error en producción, pero funciona en desarrollo. ¿Qué revisas primero?", a: "El archivo .env", b: "Los logs de producción", exp1: 5, exp2: 10, img: "business.jpg" },
+            { q: "Te piden definir una ruta ¿A que fichero accedes primero?", a: "web.php", b: "routes.php", exp1: 5, exp2: 0, img: "course.jpg" },
+            { q: "¿Cómo defines una relación uno a muchos en Laravel?", a: "Invest", b: "Spend", exp1: 12, exp2: 4, img: "lottery.jpg" },
+            { q: "¿Cuál es la forma correcta de validar datos en un controlador?", a: "Yes", b: "No", exp1: 9, exp2: 5, img: "city.jpg" },
+            { q: "¿Qué estructura de archivos usa Laravel para las vistas?", a: "Car", b: "Save", exp1: 4, exp2: 10, img: "car.jpg" },
+            { q: "¿Cómo ejecutas todas las migraciones en Laravel?", a: "Yes", b: "No", exp1: 11, exp2: 5, img: "trip.jpg" },
+            { q: "Debes optimizar el rendimiento de las consultas en Laravel. ¿Qué herramienta utilizas?", a: "Yes", b: "No", exp1: 8, exp2: 3, img: "help.jpg" }
         ];
 
         function startGame() {
@@ -61,21 +61,60 @@
                 imgElement.src = q.img;
                 imgElement.classList.remove("hidden");
             } else {
-                document.getElementById("question").innerText = "Game Over! Final Experience Level: " + level;
-                document.getElementById("option1").classList.add("hidden");
-                document.getElementById("option2").classList.add("hidden");
-                document.getElementById("question-img").classList.add("hidden");
+                endGame();
+               
             }
         }
 
         function chooseOption(option) {
-            let q = questions[questionIndex];
-            level += option === 1 ? q.exp1 : q.exp2;
-            age++;
-            document.getElementById("age").innerText = age;
-            document.getElementById("level").innerText = level;
-            questionIndex++;
-            nextQuestion();
+            if (option === 2) {
+                // Fired for wrong answer
+                fired();
+            } else {
+                // Correct answer
+                level += option === 1 ? q.exp1 : q.exp2;
+                age++;
+                document.getElementById("age").innerText = age;
+                document.getElementById("level").innerText = level;
+                questionIndex++;
+                nextQuestion();
+            }
+        }
+
+        function fired() {
+            document.getElementById("question").innerText = "Game Over! You were fired for the wrong answer!";
+            document.getElementById("option1").classList.add("hidden");
+            document.getElementById("option2").classList.add("hidden");
+            document.getElementById("question-img").classList.add("hidden");
+
+            let finalResult = document.getElementById("final-result");
+            finalResult.classList.remove("hidden");
+            finalResult.innerText = `You got fired! Better luck next time!`;
+        }
+
+        function endGame() {
+            let category = "";
+            let salary = 0;
+
+            if (level < 30) {
+                category = "Junior";
+                salary = 25000;
+            } else if (level < 60) {
+                category = "Senior";
+                salary = 50000;
+            } else {
+                category = "Team Lead";
+                salary = 75000;
+            }
+
+            document.getElementById("question").innerText = "Game Over! Final Experience Level: " + level;
+            document.getElementById("option1").classList.add("hidden");
+            document.getElementById("option2").classList.add("hidden");
+            document.getElementById("question-img").classList.add("hidden");
+
+            let finalResult = document.getElementById("final-result");
+            finalResult.classList.remove("hidden");
+            finalResult.innerText = `Category: ${category}\nSalary: $${salary}`;
         }
     </script>
 </body>
